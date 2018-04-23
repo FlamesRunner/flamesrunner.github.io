@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<title>Calculate</title>
+		<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+		<link href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.0/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-9gVQ4dYFwwWSjIDZnLEWnxCjeSWFphJiwGPXr1jddIhOegiu1FwO5qRGvFXOdJZ4" crossorigin="anonymous">
+		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+		<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.0/js/bootstrap.min.js" integrity="sha384-uefMccjFJAIv6A+rW+L4AHf99KvxDjWSu1z9VI8SKNVmz4sk7buKt/6v9KI65qnm" crossorigin="anonymous"></script>
+	</head>
+	<body>
+		<br>
+		<div class="container">
+			<form onsubmit="calculate()">
+				<div id="results"></div>
+				<label for="usedDisk">Disk used in GB on the original system</label>
+				<input id="usedDisk" name="usedDisk" class="form-control" placeholder="Disk space used on the original system in gigabytes" />
+				<br>
+				<label for="availableDisk">Disk available in GB on the new system</label>
+				<input id="availableDisk" name="availableDisk" class="form-control" placeholder="Disk space available for use on the new system in gigabytes" />
+				<br>
+				<button type="submit" class="btn btn-primary">Calculate</button>
+			</form>
+		</div>
+	</body>
+	<script>
+		function calculate() {
+			event.preventDefault();
+			var usedDisk = $("#usedDisk").val();
+			var availableDisk = $("#availableDisk").val();
+			if (isNaN(usedDisk) || isNaN(availableDisk)) {
+				$("#results").html("<div class='alert alert-warning'>Please input valid numbers.</div>");
+			} else {
+				var res = Number(usedDisk) / Number(availableDisk);
+				if (res > 0.89) {
+					$("#results").html("<div class='alert alert-danger'>There is a good chance this procedure will fail. It is not recommended that you continue.</div>");
+				} else if (res > 0.79) {
+					$("#results").html("<div class='alert alert-warning'>You can probably continue without harm, but there's a fair chance this will fail. Proceed at your own risk.</div>");
+				} else if (res > 0) {
+					$("#results").html("<div class='alert alert-success'>You have sufficient disk space to proceed safely.</div>");
+				} else {
+					$("#results").html("<div class='alert alert-warning'>You entered invalid values.</div>");
+				}
+			}
+		}
+	</script>
+</html>
